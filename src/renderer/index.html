@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; font-src 'self' data:; img-src 'self' data: blob:" />
+    <title>ClaudeDeck</title>
+    <link rel="stylesheet" href="../../node_modules/@xterm/xterm/css/xterm.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <aside id="sidebar">
+      <div class="drag"></div>
+      <button id="nav-overview" class="nav-item">Tổng quan <span id="running-count" class="badge"></span></button>
+      <div class="section-title">
+        <span>Projects</span>
+        <button id="add-project" class="icon-btn" title="Thêm project hoặc tạo nhóm">＋</button>
+      </div>
+      <div id="project-list"></div>
+      <div id="account"></div>
+    </aside>
+    <div class="col-gutter">
+      <div class="col-resizer" id="resize-left" title="Kéo để đổi độ rộng · Bấm đúp để về mặc định"></div>
+    </div>
+    <div id="center">
+      <div id="editor-tabs"></div>
+      <main id="main"></main>
+      <div id="editor-host"></div>
+      <section id="terminal-panel"></section>
+    </div>
+    <aside id="explorer"></aside>
+    <div id="auth-banner"></div>
+    <script src="../../node_modules/@xterm/xterm/lib/xterm.js"></script>
+    <script src="../../node_modules/@xterm/addon-fit/lib/addon-fit.js"></script>
+    <script src="../../node_modules/marked/lib/marked.umd.js"></script>
+    <script src="../../node_modules/dompurify/dist/purify.min.js"></script>
+    <script src="app.js"></script>
+    <script src="terminal.js"></script>
+    <script src="editor.js"></script>
+  </body>
+</html>

@@ -1,0 +1,150 @@
+{
+  "name": "claudedeck",
+  "version": "1.0.6",
+  "description": "Quản lý nhiều project và giao việc song song cho Claude",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "env -u ELECTRON_RUN_AS_NODE electron .",
+    "postinstall": "node node_modules/electron/install.js && chmod +x node_modules/node-pty/prebuilds/darwin-*/spawn-helper",
+    "dist": "electron-builder --mac dir --arm64",
+    "dist:win": "electron-builder --win --x64 -c.npmRebuild=false",
+    "dist:mac": "electron-builder --mac dmg --arm64",
+    "dist:linux": "mkdir -p node_modules/node-pty/prebuilds/linux-x64 && cp build/prebuilds/linux-x64/pty.node node_modules/node-pty/prebuilds/linux-x64/ && electron-builder --linux --x64 -c.npmRebuild=false -c.directories.output=dist-linux"
+  },
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.311",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "dompurify": "^3.4.17",
+    "marked": "^18.1.2",
+    "monaco-editor": "^0.57.0",
+    "node-pty": "^1.1.0"
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "productName": "ClaudeDeck",
+  "build": {
+    "appId": "dev.ninhgio.claudedeck",
+    "productName": "ClaudeDeck",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "!node_modules/monaco-editor/{esm,dev,min-maps}/**"
+    ],
+    "asarUnpack": [
+      "node_modules/node-pty/**"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "identity": null,
+      "target": [
+        "dir"
+      ],
+      "files": [
+        "src/**/*",
+        "package.json",
+        "!node_modules/monaco-editor/{esm,dev,min-maps}/**",
+        "!node_modules/@anthropic-ai/claude-agent-sdk-*/**",
+        "!node_modules/node-pty/prebuilds/win32-*/**",
+        "!node_modules/node-pty/third_party/**"
+      ],
+      "icon": "build/icon.icns"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "files": [
+        "src/**/*",
+        "package.json",
+        "!node_modules/monaco-editor/{esm,dev,min-maps}/**",
+        "!node_modules/@anthropic-ai/claude-agent-sdk-darwin-*/**",
+        "!node_modules/node-pty/prebuilds/darwin-*/**",
+        "!node_modules/node-pty/prebuilds/win32-arm64/**",
+        "!node_modules/node-pty/third_party/conpty/*/win10-arm64/**",
+        "!node_modules/node-pty/build/**"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "artifactName": "ClaudeDeck-Setup-${version}.${ext}",
+      "include": "build/installer.nsh"
+    },
+    "dmg": {
+      "artifactName": "ClaudeDeck-${version}-${arch}.${ext}",
+      "title": "ClaudeDeck ${version}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Development",
+      "icon": "build/icon.png",
+      "executableName": "claudedeck",
+      "files": [
+        "src/**/*",
+        "package.json",
+        "!node_modules/monaco-editor/{esm,dev,min-maps}/**",
+        "!node_modules/@anthropic-ai/claude-agent-sdk-*/**",
+        "!node_modules/node-pty/prebuilds/darwin-*/**",
+        "!node_modules/node-pty/prebuilds/win32-*/**",
+        "!node_modules/node-pty/third_party/**",
+        "!node_modules/node-pty/build/**"
+      ],
+      "maintainer": "ninhgio <ninhgio@gmail.com>",
+      "synopsis": "Quản lý nhiều project và giao việc song song cho Claude"
+    },
+    "deb": {
+      "artifactName": "ClaudeDeck-${version}-amd64.${ext}",
+      "depends": [
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libuuid1",
+        "libsecret-1-0",
+        "libgbm1",
+        "libdrm2",
+        "libasound2 | libasound2t64"
+      ]
+    },
+    "appImage": {
+      "artifactName": "ClaudeDeck-${version}-x86_64.${ext}"
+    }
+  },
+  "homepage": "https://github.com/ninhgio/claude-deck"
+}
